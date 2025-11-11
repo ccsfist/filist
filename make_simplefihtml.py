@@ -279,7 +279,7 @@ def generate_html(entries: List[Dict[str, Any]]) -> str:
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Financial Instrument Links</title>
+    <title>Financial Instruments Links</title>
     {GA_TRACKING_CODE}
     <style>
         
@@ -348,7 +348,7 @@ def generate_html(entries: List[Dict[str, Any]]) -> str:
 </head>
 <body>
     <div class="header-bar">
-        <div class="header-title">Financial Instrument Links</div>
+        <div class="header-title">Financial Instruments Links</div>
     </div>
     <div class="container">
 <ul class='entry-list'>
