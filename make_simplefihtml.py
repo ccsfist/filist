@@ -287,7 +287,7 @@ def generate_html(entries: List[Dict[str, Any]]) -> str:
         body {{ font-family: 'Helvetica Neue', Arial, sans-serif; margin: 0; padding: 0; background-color: #fff; color: #333; }} 
         
         /* Blue header bar across the top of the page */
-        .header-bar {{ background-color: #004c99; padding: 15px 0; margin-bottom: 30px; }}
+        .header-bar {{ background-color: #01349A; padding: 15px 0; margin-bottom: 30px; }}
         
         /* White title styling and positioning, centered with content area */
         .header-title {{ max-width: 960px; margin: 0 auto; padding: 0 20px; font-size: 28px; color: white; font-weight: 500; }} 
