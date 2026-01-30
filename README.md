@@ -1,13 +1,6 @@
 # This is a repo for FI list of links based on csv file: https://ccsfist.github.io/filist/
 
 ### To update the filist
-
-### Immediate next steps:
-   - need to add features to include new pubs, look for duplicates across merged csv file, keep image cache working with new documents
-   - forcerank column in csv file that allows you to have items sit near the top of the html, irregardless of the date
-   - check for broken links (perhaps keeping them in the list as a kind of cv, but not active)
-   - cache as much as possible from the IRI data library and other less permanent sources, perhaps not to this repo/html, but somewhere!
-
    - add any images to the images directory in the repo
    - edit combined_data.csv file to generate all the entries
        - Note its format was the combination of 3 spreadsheets by ai so it doesnt make complete sense (someday, hopefully).  
@@ -17,6 +10,14 @@
    - double check that index.html looks ok
    - git add, commit, and push
 
+
+### Immediate next steps:
+   - need to add features to include new pubs, look for duplicates across merged csv file, keep image cache working with new documents
+   - forcerank column in csv file that allows you to have items sit near the top of the html, irregardless of the date
+   - check for broken links (perhaps keeping them in the list as a kind of cv, but not active)
+   - cache as much as possible from the IRI data library and other less permanent sources, perhaps not to this repo/html, but somewhere!
+
+   
 ### It came from DOsgoodCU/filinks
   - That repo had a lot of conversion from old sources steps
     - started with the old https://iri.columbia.edu/topics/financial-instruments/
