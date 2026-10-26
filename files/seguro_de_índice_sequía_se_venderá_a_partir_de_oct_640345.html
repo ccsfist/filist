@@ -1,0 +1,84 @@
+
+
+
+<html>
+<head>
+    
+
+    <script type='text/javascript' nonce="sF83GO1YlcmtB+waofmz4hCJ6Q3nYdPnE5ePlHgsqRA=">var loginURL,hashPage,updatedRef;try{loginURL='https://admin.microsoft.com/login?ru=%2FAdminportal%2FHome%3Fref%3Dprelogin',hashPage=window.location.hash.substring(1),hashPage.length===0?loginURL=loginURL.replace("ref%3Dprelogin",""):(updatedRef="ref="+hashPage,loginURL=loginURL.replace("ref%3Dprelogin",updatedRef)),window.location.href=loginURL}catch(err){window.location.href='https://admin.microsoft.com/login?ru=%2FAdminportal%2FHome%3Fref%3Dprelogin'}</script>
+</head>
+</html>
+
+
+<!doctype html>
+
+<html lang="en-US">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+    
+    <script type='text/javascript' nonce='sF83GO1YlcmtB+waofmz4hCJ6Q3nYdPnE5ePlHgsqRA='>// [START] Auto-generated code by the WebScriptsAnalyzer tool - Global Logger 
+// @ts-ignore eslint-disable-next-line - Auto-generated code by the WebScriptsAnalyzer tool 
+function postMessages(e,t="535539"){try{if(0===e.length)return void(isSending=!1);const n=JSON.stringify(e.map((e=>({TagId:t,LogLevel:"Info",Message:e})))),o=new XMLHttpRequest;o.open("POST","/api/instrument/logclient",!0),o.setRequestHeader("Content-Type","application/json"),o.setRequestHeader("x-ms-mac-hostingapp","remove-assets-tool"),o.onreadystatechange=()=>{4===o.readyState&&(204!==o.status&&console.error(`Script Usage Metric failed to send metric: ${o.status} for ${t}`),isSending=!1)},o.onerror=()=>{console.error(`Script Usage Metric Error: ${o.statusText} for ${t}`),isSending=!1},o.send(n)}catch(e){console.error("Error sending messages",e),isSending=!1}}function injectGlobalLogger(){let e,t=[],n=!1,o=new Set;window.cU=function(s){const r=s.split("&")[1];r&&(o.has(r)||(o.add(r),t.push(s),n||function(){n=!0,e&&clearTimeout(e);e=setTimeout((()=>{0!==t.length?postMessages(function(){const e=Array.from(new Set(t));let n=[];const o=16e3;let s="";e.forEach((e=>{s.length+e.length>=o&&(n.push(s.replace(/;$/,"")),s=""),s+=`${e};`})),s.length>0&&n.push(s.replace(/;$/,""));return t=[],n}()):n=!1}),1e4)}()))}}function collectUsage(e){try{if(!window)return;window.cU||injectGlobalLogger(),window.cU?window.cU(e):postMessages([`Error: collectUsage function is not available for message ${e}`],"536579")}catch(e){console.error("Error calling collectUsage",e)}}
+// [END] Auto-generated code by the WebScriptsAnalyzer tool - Global Logger 
+// @ts-ignore eslint-disable-next-line - Auto-generated code by the WebScriptsAnalyzer tool 
+collectUsage("sr:se:Su:We:js:LogInitialBundle.js&d8280d64l&load-event");
+function log(tagId, loglevel, message, hostApp, featureName = '') {
+    // @ts-ignore eslint-disable-next-line - Auto-generated code by the WebScriptsAnalyzer tool 
+    collectUsage("sr:se:Su:We:js:LogInitialBundle.js&d8280d64m&log");
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = () => {
+        if (xhttp.readyState === XMLHttpRequest.DONE) {
+            if (xhttp.status !== 204) {
+                console.log(
+                    `Request to /api/instrument/logclient failed, server responseCode: ${xhttp.status} body: ${xhttp.response}`
+                )
+            }
+        }
+    }
+    xhttp.open("POST", "/api/instrument/logclient", true);
+    xhttp.setRequestHeader("Content-type", "application/json");
+    xhttp.setRequestHeader("x-ms-mac-hostingapp", hostApp);
+    const data = [
+        {
+            TagId: tagId,
+            LogLevel: loglevel,
+            Message: message,
+            Adhoc2: JSON.stringify({
+                appName: hostApp,
+                featureName: featureName
+            })
+        }
+    ]
+    xhttp.send(JSON.stringify(data));
+}</script>
+
+    <script type="text/javascript" nonce="sF83GO1YlcmtB+waofmz4hCJ6Q3nYdPnE5ePlHgsqRA=">
+        log('516290', "Info", 'Loading the initial bundle', "M365AdminPortal")
+    </script>
+
+    <script type="text/javascript" nonce="sF83GO1YlcmtB+waofmz4hCJ6Q3nYdPnE5ePlHgsqRA=">
+        window.m365config = {"cdnUrl":"https://res.cdn.office.net/admincenter/admin-main/2025.10.20.2/","macBundleCdnUrl":"https://res.cdn.office.net/admincenter/admin-main/2025.10.20.2/","macLocalBundleCdnUrl":"https://localcdn.centro-dev.com:5555/","userLocale":"en-US","hostingAppUrls":"{\"M365AdminPortal\":\"https://admin.microsoft.com\",\"EXOAdminPortal\":\"https://admin.exchange.microsoft.com\",\"SPOAdminPortal\":\"https://admin.microsoft.com/sharepoint\",\"TeamsAdminPortal\":\"https://admin-int.teams.microsoft.net/\",\"MSGraphEndPoint\":\"/fd/msgraph\",\"CDNContentURL\":\"https://res.cdn.office.net/admincenter/admin-content\",\"AriaLoggerGlobalCollectorEndpoint\":\"https://mobile.events.data.microsoft.com/Collector/3.0\",\"AriaLoggerEUCollectorEndpoint\":\"https://eu-mobile.events.data.microsoft.com/Collector/3.0\",\"AriaLoggerId\":\"ea84b6a3285140258eaeb7caaab5884a-9d3ca75b-b3ee-42b8-a22c-ab0759ad4d38-7330\",\"EUAriaLoggerId\":\"f91919df501a4bed8d67ea87a5bff68e-3e08c802-d8fb-4e8a-a976-4a5f89078bfc-7473\",\"ProfileServiceURL\":\"https://macservices.admin.cloud.microsoft/AmplifyProfileService/ProfileServiceV2/\",\"AzureResourceManagerURL\":\"https://management.azure.com\",\"AssistApiEndpoint\":\"/fd/businessassistsku/public/api/v1.0\",\"BaSkuRecommenderApiEndpoint\":\"/fd/baskurecommender\"}","measureLighthouse":true,"bootstrapMode":"enableAggregatedDispatch","maxPltInSeconds":60,"shellWorkLoadId":"AdminPortal","tenantBoundary":null,"cspNonce":"sF83GO1YlcmtB+waofmz4hCJ6Q3nYdPnE5ePlHgsqRA=","isOCDIContext":false,"enablePerfLogs":false,"useFetch":false};
+        const baseUrl = "/adminportal/home/ClassicModernAdminDataStream"
+        performance.mark('@ms/mac/IB_CHPR_Start');
+        window.independentBootstrapping = {
+            classicHomepage: fetch(baseUrl + window.location.search + window.location.hash, {
+                "method": "GET",
+                "mode": "same-origin",
+                "credentials": "same-origin",
+                "headers": {
+                    "x-adminapp-request": "/homepage"
+                }
+            }).then(resp => {
+                performance.mark('@ms/mac/IB_CHPR_Rsp');
+                return resp;
+            })
+        };
+    </script>
+    <script type="text/javascript" id="inlinebundlesrc" src="https://res.cdn.office.net/admincenter/admin-main/2025.10.20.2/inline.en.bundle.js"></script>
+    <script type="text/javascript" id="inlinebundlejs" nonce="sF83GO1YlcmtB+waofmz4hCJ6Q3nYdPnE5ePlHgsqRA=">document.getElementById("inlinebundlesrc").addEventListener("onerror", log('516249', 'Error', 'Error loading the initial bundle - https://res.cdn.office.net/admincenter/admin-main/2025.10.20.2/inline.en.bundle.js', 'M365AdminPortal'));</script>
+</body>
+</html>
