@@ -1,19 +1,64 @@
 import argparse
 import csv
-import hashlib
 import io
 import os
 import re
 import sys
+import urllib.parse
 from datetime import datetime
 from typing import Any, Dict, List
 
 
-def format_title_link(title: str, url: str) -> str:
-  """Formats title and plain URL into an anchor tag <a href="..." target="_blank">Title</a>.
+def resolve_cached_url(url: str, files_dir: str = 'files') -> str:
+  """Checks if a cached URL points to an existing file on disk.
 
-  If url is already an HTML anchor tag, returns url directly.
+  If missing, resolves the URL by matching the 6-character SHA-1 hash in
+  files_dir.
   """
+  if not url or 'files/' not in url:
+    return url
+
+  if not os.path.exists(files_dir):
+    return url
+
+  # Extract relative filename after 'files/'
+  match_rel = re.search(r'files/([^"\'\s>]+)', url)
+  if not match_rel:
+    return url
+
+  target_rel_path = match_rel.group(1)
+  unquoted_filename = urllib.parse.unquote(target_rel_path)
+
+  try:
+    actual_files = os.listdir(files_dir)
+  except Exception:
+    return url
+
+  # 1. Direct match on disk
+  if unquoted_filename in actual_files:
+    return url
+
+  # 2. Hash-based lookup match (*_<hash>.<ext>)
+  hash_match = re.search(
+      r'_([a-f0-9]{6})\.([a-z0-9]+)$', unquoted_filename, re.IGNORECASE
+  )
+  if hash_match:
+    target_hash = hash_match.group(1).lower()
+    target_ext = hash_match.group(2).lower()
+
+    for file_on_disk in actual_files:
+      if file_on_disk.lower().endswith(f'_{target_hash}.{target_ext}'):
+        encoded_filename = urllib.parse.quote(file_on_disk)
+        if url.startswith('https://ccsfist.github.io/filist/'):
+          return f'https://ccsfist.github.io/filist/files/{encoded_filename}'
+        else:
+          return f'files/{file_on_disk}'
+
+  return url
+
+
+def format_title_link(title: str, url: str) -> str:
+  """Formats title and plain URL into an anchor tag <a href="..." target="_blank">Title</a>."""
   if not url or url == '#':
     return f'<a href="#">{title}</a>'
 
@@ -33,7 +78,6 @@ def parse_date(
 ) -> datetime:
   """Parses date string into a datetime object for sorting."""
 
-  # --- Logic for News/Feature and Media Mention (MM/DD/YY) ---
   if entry_type in ['News/Feature', 'Media Mention']:
     raw_date_str = str(raw_date_str or '').strip()
     if not raw_date_str:
@@ -48,7 +92,6 @@ def parse_date(
       row['date_str'] = ''
       return datetime(1900, 1, 1)
 
-  # --- Logic for Publication (YYYY, M) ---
   elif entry_type == 'Publication':
     raw_year = str(row.get('published_year') or '').strip()
     raw_month = str(row.get('published_month') or '').strip()
@@ -116,7 +159,7 @@ def parse_csv_data(filename: str) -> List[Dict[str, Any]]:
 
 
 def generate_html(entries: List[Dict[str, Any]]) -> str:
-  """Generates the main HTML content for the entry list."""
+  """Generates main HTML content with resolved disk paths."""
 
   html_entries = []
 
@@ -128,13 +171,14 @@ def generate_html(entries: List[Dict[str, Any]]) -> str:
         'Media Mention': 'Media Mention',
     }.get(data_type, 'Entry')
 
-    url = str(row.get('url') or '#').strip()
+    raw_url = str(row.get('url') or '#').strip()
+    resolved_url = resolve_cached_url(raw_url)
+
     title = str(row.get('title') or 'Untitled').strip()
     date_str = str(row.get('date_str') or '').strip()
-    title_link = format_title_link(title, url)
+    title_link = format_title_link(title, resolved_url)
 
     if data_type == 'Publication':
-      # --- Publication Format ---
       authors_pub = (
           str(row.get('authors_pub') or '')
           .replace('\n', ' ')
@@ -183,7 +227,6 @@ def generate_html(entries: List[Dict[str, Any]]) -> str:
             """
 
     elif data_type == 'Media Mention':
-      # --- Media Mention Format ---
       source_media = str(row.get('source_media') or '').strip()
 
       html_content = f"""
@@ -199,7 +242,6 @@ def generate_html(entries: List[Dict[str, Any]]) -> str:
             """
 
     elif data_type == 'News/Feature':
-      # --- News/Feature Format ---
       author = str(row.get('author') or '').strip()
       imagename = str(row.get('imagename') or '').strip()
       excerpt = str(row.get('excerpt') or '').strip()
@@ -239,7 +281,6 @@ def generate_html(entries: List[Dict[str, Any]]) -> str:
 
     html_entries.append(html_content)
 
-  # --- Google Analytics 4 Tracking Code ---
   GA_TRACKING_CODE = """
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-YM4PVFJE0F"></script>
     <script>
@@ -251,7 +292,6 @@ def generate_html(entries: List[Dict[str, Any]]) -> str:
     </script>
     """
 
-  # --- HTML Shell ---
   HTML_SHELL = f"""
 <!DOCTYPE html>
 <html lang="en">
@@ -261,68 +301,24 @@ def generate_html(entries: List[Dict[str, Any]]) -> str:
     <title>Financial Instruments Links</title>
     {GA_TRACKING_CODE}
     <style>
-        
-        /* Set full browser window background to white */
         body {{ font-family: 'Helvetica Neue', Arial, sans-serif; margin: 0; padding: 0; background-color: #fff; color: #333; }} 
-        
-        /* Blue header bar across the top of the page */
         .header-bar {{ background-color: #01349A; padding: 15px 0; margin-bottom: 30px; }}
-        
-        /* White title styling and positioning, centered with content area */
         .header-title {{ max-width: 960px; margin: 0 auto; padding: 0 20px; font-size: 28px; color: white; font-weight: 500; }} 
-        
-        /* Content container */
         .container {{ max-width: 960px; margin: 0 auto; padding: 0 20px 20px 20px; background-color: #fff; }} 
-        
-        /* General list styles */
         .entry-list {{ list-style: none; padding: 0; }}
         .entry-list > li {{ margin-bottom: 25px; border-bottom: 1px dashed #eee; padding-bottom: 15px; }}
         .entry-list > li:last-child {{ border-bottom: none; margin-bottom: 0; padding-bottom: 0; }}
-        
-        /* Entry component styles */
         .entry-title {{ font-weight: 600; font-size: 16px; margin-right: 5px; display: inline; }}
         .entry-title a {{ color: #1e62a3; text-decoration: none; }}
         .entry-title a:hover {{ text-decoration: underline; color: #004c99; }}
         .entry-meta {{ font-size: 13px; color: #666; margin-top: 3px; display: block; }}
-        
-        /* Ensure abstract text displays fully without truncation or overflow limits */
-        .entry-abstract {{ 
-            font-size: 14px; 
-            color: #444; 
-            margin-top: 5px; 
-            padding: 8px 0 0 0; 
-            white-space: normal;
-            overflow: visible;
-            word-wrap: break-word; 
-        }}
-
-        /* Styling for the image in news/feature entries */
-        .entry-image {{
-            float: left; 
-            margin-right: 15px; 
-            margin-bottom: 15px; 
-            max-width: 150px; 
-            height: auto;
-            border-radius: 4px;
-        }}
-
-        /* Wrapper to contain the floated image and the text content */
-        .news-content-wrapper {{
-            display: flow-root; 
-        }}
-
-        /* Class to clear the float after the news entry is complete. */
-        .clearfix::after {{
-            content: "";
-            display: table;
-            clear: both;
-        }}
-        
-        /* Specialized styles */
+        .entry-abstract {{ font-size: 14px; color: #444; margin-top: 5px; padding: 8px 0 0 0; white-space: normal; overflow: visible; word-wrap: break-word; }}
+        .entry-image {{ float: left; margin-right: 15px; margin-bottom: 15px; max-width: 150px; height: auto; border-radius: 4px; }}
+        .news-content-wrapper {{ display: flow-root; }}
+        .clearfix::after {{ content: ""; display: table; clear: both; }}
         .date {{ font-weight: 500; color: #993300; }}
         .author-list {{ font-style: italic; }}
         .type-label {{ color: #004c99; font-size: 11px; font-weight: normal; margin-left: 8px; }}
-    
     </style>
 </head>
 <body>
@@ -348,18 +344,16 @@ def main():
       description='Generate an HTML file from pre-combined CSV data.'
   )
   parser.add_argument(
-      '--input',
-      type=str,
-      default=None,
-      help='Path to input CSV file. Defaults to auto-detecting audited/clean CSV.',
+      '--input', type=str, default=None, help='Path to input CSV file.'
   )
   args = parser.parse_args()
 
-  # Auto-select best input file if not explicitly specified
   input_file = args.input
   if not input_file:
     for candidate in [
         'combined_data_audited.csv',
+        'combined_data_3_cached.csv',
+        'combined_data_3.csv',
         'combined_data_clean.csv',
         'combined_data.csv',
     ]:
@@ -382,7 +376,7 @@ def main():
   with open(output_filename, 'w', encoding='utf-8') as f:
     f.write(html_output)
 
-  print(f"Successfully generated HTML file: {output_filename}")
+  print(f"Successfully generated HTML file: '{output_filename}'")
 
 
 if __name__ == '__main__':

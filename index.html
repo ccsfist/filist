@@ -16,68 +16,24 @@
     </script>
     
     <style>
-        
-        /* Set full browser window background to white */
         body { font-family: 'Helvetica Neue', Arial, sans-serif; margin: 0; padding: 0; background-color: #fff; color: #333; } 
-        
-        /* Blue header bar across the top of the page */
         .header-bar { background-color: #01349A; padding: 15px 0; margin-bottom: 30px; }
-        
-        /* White title styling and positioning, centered with content area */
         .header-title { max-width: 960px; margin: 0 auto; padding: 0 20px; font-size: 28px; color: white; font-weight: 500; } 
-        
-        /* Content container */
         .container { max-width: 960px; margin: 0 auto; padding: 0 20px 20px 20px; background-color: #fff; } 
-        
-        /* General list styles */
         .entry-list { list-style: none; padding: 0; }
         .entry-list > li { margin-bottom: 25px; border-bottom: 1px dashed #eee; padding-bottom: 15px; }
         .entry-list > li:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-        
-        /* Entry component styles */
         .entry-title { font-weight: 600; font-size: 16px; margin-right: 5px; display: inline; }
         .entry-title a { color: #1e62a3; text-decoration: none; }
         .entry-title a:hover { text-decoration: underline; color: #004c99; }
         .entry-meta { font-size: 13px; color: #666; margin-top: 3px; display: block; }
-        
-        /* Ensure abstract text displays fully without truncation or overflow limits */
-        .entry-abstract { 
-            font-size: 14px; 
-            color: #444; 
-            margin-top: 5px; 
-            padding: 8px 0 0 0; 
-            white-space: normal;
-            overflow: visible;
-            word-wrap: break-word; 
-        }
-
-        /* Styling for the image in news/feature entries */
-        .entry-image {
-            float: left; 
-            margin-right: 15px; 
-            margin-bottom: 15px; 
-            max-width: 150px; 
-            height: auto;
-            border-radius: 4px;
-        }
-
-        /* Wrapper to contain the floated image and the text content */
-        .news-content-wrapper {
-            display: flow-root; 
-        }
-
-        /* Class to clear the float after the news entry is complete. */
-        .clearfix::after {
-            content: "";
-            display: table;
-            clear: both;
-        }
-        
-        /* Specialized styles */
+        .entry-abstract { font-size: 14px; color: #444; margin-top: 5px; padding: 8px 0 0 0; white-space: normal; overflow: visible; word-wrap: break-word; }
+        .entry-image { float: left; margin-right: 15px; margin-bottom: 15px; max-width: 150px; height: auto; border-radius: 4px; }
+        .news-content-wrapper { display: flow-root; }
+        .clearfix::after { content: ""; display: table; clear: both; }
         .date { font-weight: 500; color: #993300; }
         .author-list { font-style: italic; }
         .type-label { color: #004c99; font-size: 11px; font-weight: normal; margin-left: 8px; }
-    
     </style>
 </head>
 <body>
