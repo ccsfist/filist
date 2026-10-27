@@ -1,222 +1,195 @@
-# make_simplefihtml.py
-import csv
-import io 
-from datetime import datetime
-import re
-from typing import List, Dict, Any
-import requests
-import os
-import hashlib
 import argparse
+import csv
+import hashlib
+import io
+import os
+import re
 import sys
-
-# NOTE: This script assumes 'combined_data.csv' has already been created by 'combine_csv.py'
-# The caching functionality remains REMOVED, as requested.
-
-def safe_filename(title: str, url: str) -> str:
-    """Creates a filesystem-safe filename, using a clean version of the title and a URL hash. (FUNCTIONALITY PRESERVED BUT NOT USED AFTER CACHE REMOVAL)"""
-    
-    safe_title = re.sub(r'[\W_]+', '_', title.lower()).strip('_')
-    if not safe_title:
-        safe_title = "document"
-        
-    safe_title = safe_title[:50] 
-
-    url_path = url.split('?')[0].split('#')[0]
-    ext = os.path.splitext(url_path)[1]
-    
-    if not ext or len(ext) > 5 or ext.lower() not in ('.html', '.pdf', '.doc', '.docx', '.txt'):
-        ext = '.html' 
-    
-    url_hash = hashlib.sha1(url.encode()).hexdigest()[:6]
-    
-    return f"{safe_title}_{url_hash}{ext}"
+from datetime import datetime
+from typing import Any, Dict, List
 
 
-def cache_link(url: str, title: str, should_cache: bool) -> str:
-    """
-    (REMOVED: Was for downloading content). 
-    Now always returns the original URL as caching is disabled.
-    """
-    return url
+def format_title_link(title: str, url: str) -> str:
+  """Formats title and plain URL into an anchor tag <a href="..." target="_blank">Title</a>.
+
+  If url is already an HTML anchor tag, returns url directly.
+  """
+  if not url or url == '#':
+    return f'<a href="#">{title}</a>'
+
+  clean_url = url.strip()
+  if (
+      clean_url.startswith('<a ')
+      or clean_url.startswith('<a\n')
+      or clean_url.startswith('<a\r')
+  ):
+    return clean_url
+
+  return f'<a href="{clean_url}" target="_blank">{title}</a>'
 
 
-def load_image_map(filename: str) -> Dict[str, str]:
-    """Loads a mapping of article URL snippets to image filenames (currently unused)."""
-    image_map = {}
-    return image_map
+def parse_date(
+    raw_date_str: str, entry_type: str, row: Dict[str, Any]
+) -> datetime:
+  """Parses date string into a datetime object for sorting."""
 
-def parse_date(raw_date_str: str, entry_type: str, row: Dict[str, Any]) -> datetime:
-    """Parses date string into a datetime object for sorting."""
-    
-    # --- Logic for News/Feature and Media Mention (MM/DD/YY) ---
-    if entry_type in ['News/Feature', 'Media Mention']:
-        raw_date_str = str(raw_date_str or '').strip()
-        if not raw_date_str:
-            return datetime(1900, 1, 1) 
-            
-        try:
-            date_obj = datetime.strptime(raw_date_str, '%m/%d/%y')
-            row['date_str'] = date_obj.strftime('%B %d, %Y')
-            return date_obj
-        except ValueError:
-            # Fallback date used for sorting purposes
-            row['date_str'] = ''
-            return datetime(1900, 1, 1) 
+  # --- Logic for News/Feature and Media Mention (MM/DD/YY) ---
+  if entry_type in ['News/Feature', 'Media Mention']:
+    raw_date_str = str(raw_date_str or '').strip()
+    if not raw_date_str:
+      row['date_str'] = ''
+      return datetime(1900, 1, 1)
 
-    # --- Logic for Publication (YYYY, M) ---
-    elif entry_type == 'Publication':
-        raw_year = str(row.get('published_year') or '').strip()
-        raw_month = str(row.get('published_month') or '').strip()
-
-        try:
-            year = int(raw_year) if raw_year else 1900
-        except ValueError:
-            year = 1900
-                
-        try:
-            month = int(raw_month) if raw_month and raw_month.strip() != '0' else 1
-            if not (1 <= month <= 12): month = 1
-        except ValueError:
-            month = 1
-
-        try:
-            date_obj = datetime(year, month, 1)
-            date_str = date_obj.strftime('%B %Y')
-            
-            # Formatting logic to handle year-only or no-date cases
-            if year == 1900: 
-                date_str = '' 
-            elif month == 1 and year > 1900 and not raw_month:
-                date_str = date_obj.strftime('%Y')
-                
-            row['date_str'] = date_str
-            return date_obj
-        except ValueError:
-            row['date_str'] = ''
-            return datetime(1900, 1, 1) 
-            
-    return datetime(1900, 1, 1)
-
-
-def parse_csv_data(filename: str, old_data_type: str, should_cache: bool, image_map: Dict[str, str] = None) -> List[Dict[str, Any]]:
-    """Reads the single combined CSV file, parses data, and applies date logic."""
-    entries = []
-        
     try:
-        with open(filename, mode='r', encoding='utf-8') as f:
-            reader = csv.DictReader(f)
-            
-            for row in reader:
-                entry_type = row.get('data_type')
-                if not entry_type: continue 
-                
-                row['data_type'] = entry_type
-                
-                # Date and Caching logic is performed to populate 'date_obj' and apply cache_link transformation
-                if entry_type in ['News/Feature', 'Media Mention']:
-                    row['date_obj'] = parse_date(row.get('date'), entry_type, row)
-                    
-                    url_for_caching = str(row.get('url') or '')
-                    title_for_caching = str(row.get('title') or '')
-                    
-                    if url_for_caching:
-                        row['url'] = cache_link(url_for_caching, title_for_caching, should_cache)
-                    
-                elif entry_type == 'Publication':
-                    row['date_obj'] = parse_date(row.get('date'), entry_type, row) 
+      date_obj = datetime.strptime(raw_date_str, '%m/%d/%y')
+      row['date_str'] = date_obj.strftime('%B %d, %Y')
+      return date_obj
+    except ValueError:
+      row['date_str'] = ''
+      return datetime(1900, 1, 1)
 
-                    link_html = str(row.get('url') or '')
-                    title_for_caching = str(row.get('title') or '')
+  # --- Logic for Publication (YYYY, M) ---
+  elif entry_type == 'Publication':
+    raw_year = str(row.get('published_year') or '').strip()
+    raw_month = str(row.get('published_month') or '').strip()
 
-                    # This block ensures that if caching was enabled, the URL would be replaced
-                    link_match = re.search(r'<a\s+href="([^"]+)">([^<]+)</a>', link_html.replace('""', '"'))
-                    if link_match:
-                        clean_url = link_match.group(1)
-                        link_to_use = cache_link(clean_url, title_for_caching, should_cache)
-                        
-                        if should_cache:
-                            new_link_html = f'<a href="{link_to_use}" target="_blank">{title_for_caching}</a>'
-                            row['url'] = new_link_html
+    try:
+      year = int(float(raw_year)) if raw_year else 1900
+    except ValueError:
+      year = 1900
 
-                entries.append(row)
-                
-    except FileNotFoundError:
-        print(f"Error: The file '{filename}' was not found. Please run 'combine_csv.py' first to create it.")
-        sys.exit(1)
-    except Exception as e:
-         print(f"An unexpected error occurred during CSV parsing: {e}")
-         sys.exit(1)
-    
-    return entries
+    try:
+      month = (
+          int(float(raw_month))
+          if raw_month and raw_month.strip() != '0'
+          else 1
+      )
+      if not (1 <= month <= 12):
+        month = 1
+    except ValueError:
+      month = 1
+
+    try:
+      date_obj = datetime(year, month, 1)
+      date_str = date_obj.strftime('%B %Y')
+
+      if year == 1900:
+        date_str = ''
+      elif month == 1 and year > 1900 and not raw_month:
+        date_str = date_obj.strftime('%Y')
+
+      row['date_str'] = date_str
+      return date_obj
+    except ValueError:
+      row['date_str'] = ''
+      return datetime(1900, 1, 1)
+
+  row['date_str'] = ''
+  return datetime(1900, 1, 1)
+
+
+def parse_csv_data(filename: str) -> List[Dict[str, Any]]:
+  """Reads the CSV file, parses data, and applies date logic."""
+  entries = []
+
+  try:
+    with open(filename, mode='r', encoding='utf-8') as f:
+      reader = csv.DictReader(f)
+
+      for row in reader:
+        entry_type = row.get('data_type')
+        if not entry_type:
+          continue
+
+        row['data_type'] = entry_type
+        row['date_obj'] = parse_date(row.get('date'), entry_type, row)
+        entries.append(row)
+
+  except FileNotFoundError:
+    print(f"Error: The file '{filename}' was not found.")
+    sys.exit(1)
+  except Exception as e:
+    print(f'An unexpected error occurred during CSV parsing: {e}')
+    sys.exit(1)
+
+  return entries
 
 
 def generate_html(entries: List[Dict[str, Any]]) -> str:
-    """Generates the main HTML content for the entry list."""
-    
-    html_entries = []
+  """Generates the main HTML content for the entry list."""
 
-    for row in entries:
-        data_type = row.get('data_type')
-        type_label = {
-            'News/Feature': 'News/Feature',
-            'Publication': 'Publication',
-            'Media Mention': 'Media Mention'
-        }.get(data_type, 'Entry')
-        
-        url = row.get('url', '#')
-        date_str = row.get('date_str', '')
-        
-        if data_type == 'Publication':
-            # --- Publication Format ---
-            
-            authors_pub = str(row.get('authors_pub') or '').replace('\n', ' ').replace('<br />', ' ')
-            publisher = str(row.get('publisher') or '').strip()
-            journal = str(row.get('journal') or '').strip()
-            volume = str(row.get('volume') or '').strip()
-            issue = str(row.get('issue') or '').strip()
+  html_entries = []
 
-            meta_parts = []
-            if authors_pub: meta_parts.append(f'<span class="author-list">{authors_pub}</span>')
-            if date_str: meta_parts.append(f'<span class="date">{date_str}</span>')
-            
-            meta_str = ', '.join(meta_parts)
-            
-            details_parts = []
-            if publisher: details_parts.append(publisher)
-            if journal: details_parts.append(journal)
-            if volume: details_parts.append(f'Vol. {volume}')
-            if issue: details_parts.append(f'Issue {issue}')
-            
-            details_str = ', '.join(details_parts)
-            
-            metadata_html = f"""
+  for row in entries:
+    data_type = row.get('data_type')
+    type_label = {
+        'News/Feature': 'News/Feature',
+        'Publication': 'Publication',
+        'Media Mention': 'Media Mention',
+    }.get(data_type, 'Entry')
+
+    url = str(row.get('url') or '#').strip()
+    title = str(row.get('title') or 'Untitled').strip()
+    date_str = str(row.get('date_str') or '').strip()
+    title_link = format_title_link(title, url)
+
+    if data_type == 'Publication':
+      # --- Publication Format ---
+      authors_pub = (
+          str(row.get('authors_pub') or '')
+          .replace('\n', ' ')
+          .replace('<br />', ' ')
+      )
+      publisher = str(row.get('publisher') or '').strip()
+      journal = str(row.get('journal') or '').strip()
+      volume = str(row.get('volume') or '').strip()
+      issue = str(row.get('issue') or '').strip()
+
+      meta_parts = []
+      if authors_pub:
+        meta_parts.append(f'<span class="author-list">{authors_pub}</span>')
+      if date_str:
+        meta_parts.append(f'<span class="date">{date_str}</span>')
+
+      meta_str = ', '.join(meta_parts)
+
+      details_parts = []
+      if publisher:
+        details_parts.append(publisher)
+      if journal:
+        details_parts.append(journal)
+      if volume:
+        details_parts.append(f'Vol. {volume}')
+      if issue:
+        details_parts.append(f'Issue {issue}')
+
+      details_str = ', '.join(details_parts)
+
+      metadata_html = f"""
                 <div class="entry-meta">
                     {meta_str}.
                 </div>
             """
-            
-            html_content = f"""
+
+      html_content = f"""
             <li class="">
                 {metadata_html}
                 <div class="entry-title">
-                    {url}
+                    {title_link}
                     <span class="type-label">[{type_label}]</span>
                 </div>
                 {f'<div class="entry-meta">{details_str}.</div>' if details_str else ''}
             </li>
             """
-        
-        elif data_type == 'Media Mention':
-            # --- Media Mention Format ---
-            
-            source_media = str(row.get('source_media') or '').strip()
-            title = str(row.get('title') or '').strip() 
-            
-            html_content = f"""
+
+    elif data_type == 'Media Mention':
+      # --- Media Mention Format ---
+      source_media = str(row.get('source_media') or '').strip()
+
+      html_content = f"""
             <li class="">
                 <span class="entry-title">
-                    <a href="{url}" target="_blank">{title}</a>
+                    {title_link}
                     <span class="type-label">[{type_label}]</span>
                 </span>
                 <span class="entry-meta">
@@ -225,28 +198,35 @@ def generate_html(entries: List[Dict[str, Any]]) -> str:
             </li>
             """
 
-        elif data_type == 'News/Feature':
-            # --- News/Feature Format ---
-            
-            title = str(row.get('title') or '').strip()
-            author = str(row.get('author') or '').strip()
-            imagename = str(row.get('imagename') or '').strip()
-            excerpt = str(row.get('excerpt') or '').strip()
+    elif data_type == 'News/Feature':
+      # --- News/Feature Format ---
+      author = str(row.get('author') or '').strip()
+      imagename = str(row.get('imagename') or '').strip()
+      excerpt = str(row.get('excerpt') or '').strip()
 
-            image_html = ''
-            if imagename and os.path.exists(os.path.join('images', imagename)):
-                image_html = f'<img src="images/{imagename}" alt="{title}" class="entry-image">'
-            
-            meta_str = f"by {author} on <span class=\"date\">{date_str}</span>" if author and date_str else ''
-            meta_str = meta_str or (f"on <span class=\"date\">{date_str}</span>" if date_str else '')
-            meta_str = meta_str or (f"by {author}" if author else '')
-            
-            html_content = f"""
+      image_html = ''
+      if imagename and os.path.exists(os.path.join('images', imagename)):
+        image_html = (
+            f'<img src="images/{imagename}" alt="{title}"'
+            ' class="entry-image">'
+        )
+
+      meta_str = (
+          f'by {author} on <span class="date">{date_str}</span>'
+          if author and date_str
+          else ''
+      )
+      meta_str = meta_str or (
+          f'on <span class="date">{date_str}</span>' if date_str else ''
+      )
+      meta_str = meta_str or (f'by {author}' if author else '')
+
+      html_content = f"""
             <li class="clearfix">
                 {image_html}
                 <div class="news-content-wrapper">
                     <div class="entry-title">
-                        <a href="{url}" target="_blank">{title}</a>
+                        {title_link}
                         <span class="type-label">[{type_label}]</span>
                         <span class="entry-meta">{meta_str}</span>
                     </div>
@@ -254,13 +234,13 @@ def generate_html(entries: List[Dict[str, Any]]) -> str:
                 </div>
             </li>
             """
-        else:
-            continue
+    else:
+      continue
 
-        html_entries.append(html_content)
-        
-    # --- Google Analytics 4 Tracking Code ---
-    GA_TRACKING_CODE = """
+    html_entries.append(html_content)
+
+  # --- Google Analytics 4 Tracking Code ---
+  GA_TRACKING_CODE = """
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-YM4PVFJE0F"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -271,9 +251,8 @@ def generate_html(entries: List[Dict[str, Any]]) -> str:
     </script>
     """
 
-    # --- HTML Shell ---
-    # GA_TRACKING_CODE is inserted after the title tag in the <head>
-    HTML_SHELL = f"""
+  # --- HTML Shell ---
+  HTML_SHELL = f"""
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -332,7 +311,7 @@ def generate_html(entries: List[Dict[str, Any]]) -> str:
             display: flow-root; 
         }}
 
-        /* NEW: Class to clear the float after the news entry is complete. */
+        /* Class to clear the float after the news entry is complete. */
         .clearfix::after {{
             content: "";
             display: table;
@@ -361,38 +340,50 @@ def generate_html(entries: List[Dict[str, Any]]) -> str:
 </html>
 """
 
-    return HTML_SHELL
+  return HTML_SHELL
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Generate an HTML file from pre-combined CSV data.")
-    # The --cache flag remains for structural compatibility but is now non-functional
-    parser.add_argument('--cache', action='store_true', help='(Functionality REMOVED) Flag preserved for compatibility.')
-    args = parser.parse_args()
-    should_cache = args.cache
+  parser = argparse.ArgumentParser(
+      description='Generate an HTML file from pre-combined CSV data.'
+  )
+  parser.add_argument(
+      '--input',
+      type=str,
+      default=None,
+      help='Path to input CSV file. Defaults to auto-detecting audited/clean CSV.',
+  )
+  args = parser.parse_args()
 
-    if should_cache:
-        print("NOTE: Caching/Downloading functionality has been REMOVED from the script. '--cache' flag is IGNORED.")
-    else:
-        print("Caching/Downloading is DISABLED (Functionality has been REMOVED).")
+  # Auto-select best input file if not explicitly specified
+  input_file = args.input
+  if not input_file:
+    for candidate in [
+        'combined_data_audited.csv',
+        'combined_data_clean.csv',
+        'combined_data.csv',
+    ]:
+      if os.path.exists(candidate):
+        input_file = candidate
+        break
 
+  if not input_file or not os.path.exists(input_file):
+    print('Error: No valid input CSV file found.')
+    sys.exit(1)
 
-    image_map = load_image_map('image_data.csv')
-    
-    # Reads the combined_data.csv file
-    all_entries = parse_csv_data('combined_data.csv', 'combined', should_cache, image_map)
+  print(f"Loading data from: '{input_file}'")
 
-    all_entries.sort(key=lambda x: x['date_obj'], reverse=True)
+  all_entries = parse_csv_data(input_file)
+  all_entries.sort(key=lambda x: x['date_obj'], reverse=True)
 
-    html_output = generate_html(all_entries)
+  html_output = generate_html(all_entries)
 
-    # Output filename is index.html
-    output_filename = 'index.html' 
-    with open(output_filename, 'w', encoding='utf-8') as f:
-        f.write(html_output)
+  output_filename = 'index.html'
+  with open(output_filename, 'w', encoding='utf-8') as f:
+    f.write(html_output)
 
-    print(f"✅ Successfully generated HTML file: {output_filename}")
+  print(f"Successfully generated HTML file: {output_filename}")
 
 
 if __name__ == '__main__':
-    main()
+  main()

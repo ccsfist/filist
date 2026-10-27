@@ -1,0 +1,364 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Internet Explorer use the highest version available -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Measuring and Improving the Quality of Experience of Adaptive Rate Video | Academic Commons</title>
+    <link href="https://academiccommons.columbia.edu/search/opensearch.xml" title="Academic Commons" type="application/opensearchdescription+xml" rel="search" />
+    <link rel="icon" type="image/x-icon" href="/assets/favicon-d4707aa1e20105404af4dcabf419a521aa3d71bcb4d869ca48e5ebfd712d6351.ico" />
+    
+    <script src="/vite/assets/jquery-BK1wMvFZ.js" crossorigin="anonymous" type="module"></script>
+    <script src="/vite/assets/application-BLukb6im.js" crossorigin="anonymous" type="module"></script><link rel="modulepreload" href="/vite/assets/jquery-BK1wMvFZ.js" as="script" crossorigin="anonymous">
+    <link rel="stylesheet" href="/vite/assets/application-GaNzrtCp.css" />
+
+    <meta name="csrf-param" content="authenticity_token" />
+<meta name="csrf-token" content="j-TDrAeBb1CJLkjtToRmzgujhaiY_sh1RQ6awDrc2XN10yjeMoPJN3j9PQ477-V1jNY3CBqQ_-eTYpyvi5NHfg" />
+    <link rel="alternate" title="xml" type="application/xml" href="https://academiccommons.columbia.edu/doi/10.7916/D82B8Z7V.xml" />
+<link rel="alternate" title="dc_xml" type="text/xml" href="https://academiccommons.columbia.edu/doi/10.7916/D82B8Z7V.dc_xml" />
+<link rel="alternate" title="oai_dc_xml" type="text/xml" href="https://academiccommons.columbia.edu/doi/10.7916/D82B8Z7V.oai_dc_xml" />    <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-890CVKT79K"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-890CVKT79K');
+  </script>
+
+  <!-- Matomo -->
+  <script>
+    var _paq = window._paq = window._paq || [];
+    /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function() {
+      var u="https://columbia-libraries.matomo.cloud/";
+      _paq.push(['setTrackerUrl', u+'matomo.php']);
+      _paq.push(['setSiteId', '23']);
+      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+      g.async=true; g.src='//cdn.matomo.cloud/columbia-libraries.matomo.cloud/matomo.js'; s.parentNode.insertBefore(g,s);
+    })();
+  </script>
+  <!-- End Matomo Code -->
+
+    <meta name="citation_title" content="Measuring and Improving the Quality of Experience of Adaptive Rate Video" />
+  <meta name="citation_author" content="Nam, Hyunwoo" />
+  <meta name="citation_publication_date" content="2016" />
+  <meta name="citation_date" content="2016" />
+  
+  
+  
+  
+  <meta name="citation_doi" content="10.7916/D82B8Z7V" />
+  <meta name="citation_keywords" content="Internet service providers" /><meta name="citation_keywords" content="Streaming video" /><meta name="citation_keywords" content="Computer science" /><meta name="citation_keywords" content="Electrical engineering" /><meta name="citation_keywords" content="Netflix (Firm)" /><meta name="citation_keywords" content="YouTube (Electronic resource)" />
+  <meta name="citation_abstract_html_url" content="https://academiccommons.columbia.edu/doi/10.7916/D82B8Z7V" />
+
+
+
+
+    <meta name="citation_dissertation_name" content="Ph.D." />
+    <meta name="citation_dissertation_institution" content="Columbia University" />
+
+  <meta name="citation_pdf_url" content="https://academiccommons.columbia.edu/doi/10.7916/D8057PMR/download" />
+
+  <meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:site" content="Academic Commons">
+<meta name="twitter:creator" content="Columbia University Libraries">
+<meta property="og:site_name" content="Academic Commons"/>
+<meta property="og:image" content="/vite/assets/social-media-card-BE7FCHL3.jpg" />
+<meta property="og:image:width" content="1024" />
+<meta property="og:image:height" content="512" />
+
+  <meta name="description" content="Today&#39;s popular over-the-top (OTT) video streaming services such as YouTube, Netflix and Hulu deliver video contents to viewers using adaptive bitrate (ABR) technologies. In ABR streaming, a video player running on a viewer&#39;s device adaptively changes bitrates to match given network conditions. However, providing reliable streaming is challenging. First, an ABR player may select an inappropriate bitrate during playback due to the lack of direct knowledge of access networks, frequent user mobility and rapidly changing channel conditions. Second, OTT content is delivered to viewers without any cooperation with Internet service providers (ISPs). Last, there are no appropriate tools that evaluate the performance of ABR streaming along with video quality of experience (QoE).
+      This thesis describes how to improve the video QoE of OTT video streaming services using ABR technologies. Our analysis starts from understanding ABR heuristics. How does ABR streaming work? What factors does an ABR player consider when switching bitrates during a download? Then, we propose our solutions to improve existing ABR streaming from the perspective of network operators who deliver video content through their networks and video service providers who build ABR players running on viewers&#39; devices.
+      From the network operators&#39; point of view, we propose to find a better video content server based on round trip times (RTTs) between an edge node of a wireless network and available video content servers when a viewer requests a video. The edge node can be an Internet Service Provider (ISP) router in a Wi-Fi network and a packet data network gateway (P-GW) in a 4G network. During the experiments, our solution showed better TCP performance (e.g., higher TCP throughput during playback) 146 times out of 200 experiments (73%) over Wi-Fi networks and 162 times out of 200 experiments (81%) over 3G networks. In addition, we claim that the wireless edge nodes can assist an ABR video player in selecting the best available bitrate by controlling the available bandwidth in the radio access network between a base station and a viewer&#39;s device. In our Wi-Fi testbed, the proposed solution saved up to 21% of radio bandwidth on mobile devices and enhanced the viewing experience by reducing rebufferings during playback. Last, we assert that software-defined networking (SDN) can improve video QoE by dynamically controlling routing paths of video streaming flows based on the provisioned networking information collected from SDN-enabled networking devices. Using an off-the-shelf SDN platform, we showed that our proposed solution can reduce rebufferings by 50% and provide higher bitrates during a download.  
+      From the perspective of video service providers, higher video QoE can be achieved by improving ABR heuristics implemented in an ABR player. To support this idea, we investigated the role of playout buffer size in ABR streaming and its impact on video QoE. Through our video QoE survey, we proved that a large buffer does not always outperform a small buffer, especially under rapidly varying network conditions. Based on this finding, we suggest to dynamically change the maximum buffer size in an ABR player depending on the current capacity of its playout buffer for improving the QoE of viewers. During the experiments, our proposed solution improved the viewing experience by offering 15% higher average played bitrate, 70% fewer bitrate changes and 50% shorter rebuffering duration.
+      Our experimental results show that even small changes of ABR heuristics and new features of network systems can greatly affect video QoE. However, it is still difficult for video service providers or network operators to evaluate new ABR heuristics or network system changes due to lack of accurate QoE monitoring systems. In order to solve this issue, we have developed YouSlow (&quot;YouTube Too Slow!? - YouSlow&quot;) as a new approach to monitoring video QoE for the analysis of ABR performance. The lightweight web browser plug-in and mobile application are designed to monitor various playback events (e.g., rebuffering duration and frequency of bitrate changes) directly from within ABR video players and calculate statistics along with video QoE. Using YouSlow, we investigate the impact of the above playback events on video abandonment: about 10% of viewers abandoned the YouTube videos when the pre-roll ads lasted for 15 seconds. Even increasing the bitrate can annoy viewers; they prefer a high starting bitrate with no bitrate changes during playback. Our regression analysis shows that bitrate changes do not affect video abandonment significantly and the abandonment rate can be estimated accurately using the rebuffering ratio and the number of rebufferings. 
+      The thesis includes four main contributions. First, we investigate today&#39;s popular OTT video streaming services (e.g., YouTube and Netflix) that use ABR streaming technologies. Second, we propose to build QoS and QoE aware video streaming that can be implemented in existing wireless networks (e.g., Wi-Fi, 3G and 4G) and in SDN-enabled networks. Third, we propose to improve current ABR heuristics by dynamically changing the playout buffer size under varying network conditions. Last, we designed and implemented a new monitoring system for measuring video QoE."/>
+  <meta property="og:url" content="https://doi.org/10.7916/D82B8Z7V"/>
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Measuring and Improving the Quality of Experience of Adaptive Rate Video"/>
+  <meta property="og:description" content="Today&#39;s popular over-the-top (OTT) video streaming services such as YouTube, Netflix and Hulu deliver video contents to viewers using adaptive bitrate (ABR) technologies. In ABR streaming, a video player running on a viewer&#39;s device adaptively changes bitrates to match given network conditions. However, providing reliable streaming is challenging. First, an ABR player may select an inappropriate bitrate during playback due to the lack of direct knowledge of access networks, frequent user mobility and rapidly changing channel conditions. Second, OTT content is delivered to viewers without any cooperation with Internet service providers (ISPs). Last, there are no appropriate tools that evaluate the performance of ABR streaming along with video quality of experience (QoE).
+      This thesis describes how to improve the video QoE of OTT video streaming services using ABR technologies. Our analysis starts from understanding ABR heuristics. How does ABR streaming work? What factors does an ABR player consider when switching bitrates during a download? Then, we propose our solutions to improve existing ABR streaming from the perspective of network operators who deliver video content through their networks and video service providers who build ABR players running on viewers&#39; devices.
+      From the network operators&#39; point of view, we propose to find a better video content server based on round trip times (RTTs) between an edge node of a wireless network and available video content servers when a viewer requests a video. The edge node can be an Internet Service Provider (ISP) router in a Wi-Fi network and a packet data network gateway (P-GW) in a 4G network. During the experiments, our solution showed better TCP performance (e.g., higher TCP throughput during playback) 146 times out of 200 experiments (73%) over Wi-Fi networks and 162 times out of 200 experiments (81%) over 3G networks. In addition, we claim that the wireless edge nodes can assist an ABR video player in selecting the best available bitrate by controlling the available bandwidth in the radio access network between a base station and a viewer&#39;s device. In our Wi-Fi testbed, the proposed solution saved up to 21% of radio bandwidth on mobile devices and enhanced the viewing experience by reducing rebufferings during playback. Last, we assert that software-defined networking (SDN) can improve video QoE by dynamically controlling routing paths of video streaming flows based on the provisioned networking information collected from SDN-enabled networking devices. Using an off-the-shelf SDN platform, we showed that our proposed solution can reduce rebufferings by 50% and provide higher bitrates during a download.  
+      From the perspective of video service providers, higher video QoE can be achieved by improving ABR heuristics implemented in an ABR player. To support this idea, we investigated the role of playout buffer size in ABR streaming and its impact on video QoE. Through our video QoE survey, we proved that a large buffer does not always outperform a small buffer, especially under rapidly varying network conditions. Based on this finding, we suggest to dynamically change the maximum buffer size in an ABR player depending on the current capacity of its playout buffer for improving the QoE of viewers. During the experiments, our proposed solution improved the viewing experience by offering 15% higher average played bitrate, 70% fewer bitrate changes and 50% shorter rebuffering duration.
+      Our experimental results show that even small changes of ABR heuristics and new features of network systems can greatly affect video QoE. However, it is still difficult for video service providers or network operators to evaluate new ABR heuristics or network system changes due to lack of accurate QoE monitoring systems. In order to solve this issue, we have developed YouSlow (&quot;YouTube Too Slow!? - YouSlow&quot;) as a new approach to monitoring video QoE for the analysis of ABR performance. The lightweight web browser plug-in and mobile application are designed to monitor various playback events (e.g., rebuffering duration and frequency of bitrate changes) directly from within ABR video players and calculate statistics along with video QoE. Using YouSlow, we investigate the impact of the above playback events on video abandonment: about 10% of viewers abandoned the YouTube videos when the pre-roll ads lasted for 15 seconds. Even increasing the bitrate can annoy viewers; they prefer a high starting bitrate with no bitrate changes during playback. Our regression analysis shows that bitrate changes do not affect video abandonment significantly and the abandonment rate can be estimated accurately using the rebuffering ratio and the number of rebufferings. 
+      The thesis includes four main contributions. First, we investigate today&#39;s popular OTT video streaming services (e.g., YouTube and Netflix) that use ABR streaming technologies. Second, we propose to build QoS and QoE aware video streaming that can be implemented in existing wireless networks (e.g., Wi-Fi, 3G and 4G) and in SDN-enabled networks. Third, we propose to improve current ABR heuristics by dynamically changing the playout buffer size under varying network conditions. Last, we designed and implemented a new monitoring system for measuring video QoE."/>
+
+  <meta name="bitly-verification" content="35191b8f3154"/>
+  <meta name="baidu-site-verification" content="vQh9AyuWzB"/>
+
+  </head>
+  <body class="blacklight-catalog blacklight-catalog-show">
+    
+    <a class="skip-link sr-only sr-only-focusable" href="#content">
+  Skip to main content
+</a>
+
+<div class="cul-banner">
+  <div class="container">
+    <a href="http://library.columbia.edu" class="cul-banner-logo">
+      <span>Columbia University Libraries</span>
+    </a>
+  </div>
+</div>
+
+    
+<header id="header-navbar" role="banner">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 logo">
+        <a class="navbar-brand" href="/">Academic Commons</a>
+      </div>
+      <div class="col-md-4 search-bar">
+        
+<search>
+  <form class="search-query-form" action="https://academiccommons.columbia.edu/search" accept-charset="UTF-8" method="get">
+    
+    <div class="input-group">
+      
+
+        <input value="all_fields" autocomplete="off" type="hidden" name="search_field" id="search_field" />
+
+      <label class="sr-only visually-hidden" for="q">search for</label>
+        <input placeholder="Search for theses, data, articles, etc." class="p-1 seaerch-q q form-control rounded-left rounded-start" aria-label="search for" type="search" name="q" id="q" />
+
+      
+      <button class="btn btn-primary search-btn" type="submit" id="search"><span class="visually-hidden-sm me-sm-1 submit-search-text">Search</span><span class="blacklight-icons blacklight-icons-search"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" aria-hidden="true" width="24" height="24" viewBox="0 0 24 24">
+  <path fill="none" d="M0 0h24v24H0V0z"/><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+</svg>
+</span></button>
+    </div>
+</form>
+</search>
+
+      </div>
+    </div>
+  </div>
+</header>
+
+<div id="links-navbar">
+  <div class="container">
+      <nav role="navigation">
+        <ul class="about-links">
+          <li><a aria-label="About Academic Commons" href="/about">About</a></li>
+          <li><a href="/explore">Explore</a></li>
+        </ul>
+        <ul class="user-links">
+          
+
+    <li>
+
+<a class="" href="/sign_in">Log In </a>
+</li>
+
+<li>
+
+<a class="share-button" href="/upload">
+    Upload
+    <span>Your Research</span>
+</a></li>
+
+        </ul>
+      </nav>
+  </div>
+</div>
+
+
+    <main id="main-container" class="p-0 container" role="main" aria-label="Main content">
+      
+
+        <div class="row">
+  <div class="col-md-12">
+    <div id="main-flashes">
+      <div class="flash_messages">
+    
+    
+    
+    
+</div>
+
+    </div>
+  </div>
+</div>
+
+
+        <div class="row">
+              <section id="content" class="col-md-8 order-first" aria-label="search results">
+      
+
+<div id="document" class="document blacklight-doctoral" itemscope  itemtype="http://schema.org/CreativeWork">
+  <div id="doc_10-7916-d82b8z7v">
+    
+    
+<div id="document" data-document-id="10-7916-d82b8z7v" itemscope="itemscope" itemtype="http://schema.org/CreativeWork" class="blacklight-doctoral document">
+  
+    <div class="document-main-section w-100"> 
+      
+          
+
+<p class="genre-labels">
+  <span class="tag-label"><span itemprop="datePublished">2016</span></span>
+  <span class="tag-label"><span itemprop="genre">Theses</span></span>
+  <span class="tag-label">Doctoral</span>
+</p>
+
+<h1 itemprop="name">Measuring and Improving the Quality of Experience of Adaptive Rate Video</h1>
+
+  <p class="blacklight-author_ssim"><span itemprop="creator"><a href="/search?f%5Bauthor_ssim%5D%5B%5D=Nam%2C+Hyunwoo">Nam, Hyunwoo</a></span></p>
+  <p class="blacklight-abstract_ssi"><span itemprop="description">Today&#39;s popular over-the-top (OTT) video streaming services such as YouTube, Netflix and Hulu deliver video contents to viewers using adaptive bitrate (ABR) technologies. In ABR streaming, a video player running on a viewer&#39;s device adaptively changes bitrates to match given network conditions. However, providing reliable streaming is challenging. First, an ABR player may select an inappropriate bitrate during playback due to the lack of direct knowledge of access networks, frequent user mobility and rapidly changing channel conditions. Second, OTT content is delivered to viewers without any cooperation with Internet service providers (ISPs). Last, there are no appropriate tools that evaluate the performance of ABR streaming along with video quality of experience (QoE).<br/>      This thesis describes how to improve the video QoE of OTT video streaming services using ABR technologies. Our analysis starts from understanding ABR heuristics. How does ABR streaming work? What factors does an ABR player consider when switching bitrates during a download? Then, we propose our solutions to improve existing ABR streaming from the perspective of network operators who deliver video content through their networks and video service providers who build ABR players running on viewers&#39; devices.<br/>      From the network operators&#39; point of view, we propose to find a better video content server based on round trip times (RTTs) between an edge node of a wireless network and available video content servers when a viewer requests a video. The edge node can be an Internet Service Provider (ISP) router in a Wi-Fi network and a packet data network gateway (P-GW) in a 4G network. During the experiments, our solution showed better TCP performance (e.g., higher TCP throughput during playback) 146 times out of 200 experiments (73%) over Wi-Fi networks and 162 times out of 200 experiments (81%) over 3G networks. In addition, we claim that the wireless edge nodes can assist an ABR video player in selecting the best available bitrate by controlling the available bandwidth in the radio access network between a base station and a viewer&#39;s device. In our Wi-Fi testbed, the proposed solution saved up to 21% of radio bandwidth on mobile devices and enhanced the viewing experience by reducing rebufferings during playback. Last, we assert that software-defined networking (SDN) can improve video QoE by dynamically controlling routing paths of video streaming flows based on the provisioned networking information collected from SDN-enabled networking devices. Using an off-the-shelf SDN platform, we showed that our proposed solution can reduce rebufferings by 50% and provide higher bitrates during a download.  <br/>      From the perspective of video service providers, higher video QoE can be achieved by improving ABR heuristics implemented in an ABR player. To support this idea, we investigated the role of playout buffer size in ABR streaming and its impact on video QoE. Through our video QoE survey, we proved that a large buffer does not always outperform a small buffer, especially under rapidly varying network conditions. Based on this finding, we suggest to dynamically change the maximum buffer size in an ABR player depending on the current capacity of its playout buffer for improving the QoE of viewers. During the experiments, our proposed solution improved the viewing experience by offering 15% higher average played bitrate, 70% fewer bitrate changes and 50% shorter rebuffering duration.<br/>      Our experimental results show that even small changes of ABR heuristics and new features of network systems can greatly affect video QoE. However, it is still difficult for video service providers or network operators to evaluate new ABR heuristics or network system changes due to lack of accurate QoE monitoring systems. In order to solve this issue, we have developed YouSlow (&quot;YouTube Too Slow!? - YouSlow&quot;) as a new approach to monitoring video QoE for the analysis of ABR performance. The lightweight web browser plug-in and mobile application are designed to monitor various playback events (e.g., rebuffering duration and frequency of bitrate changes) directly from within ABR video players and calculate statistics along with video QoE. Using YouSlow, we investigate the impact of the above playback events on video abandonment: about 10% of viewers abandoned the YouTube videos when the pre-roll ads lasted for 15 seconds. Even increasing the bitrate can annoy viewers; they prefer a high starting bitrate with no bitrate changes during playback. Our regression analysis shows that bitrate changes do not affect video abandonment significantly and the abandonment rate can be estimated accurately using the rebuffering ratio and the number of rebufferings. <br/>      The thesis includes four main contributions. First, we investigate today&#39;s popular OTT video streaming services (e.g., YouTube and Netflix) that use ABR streaming technologies. Second, we propose to build QoS and QoE aware video streaming that can be implemented in existing wireless networks (e.g., Wi-Fi, 3G and 4G) and in SDN-enabled networks. Third, we propose to improve current ABR heuristics by dynamically changing the playout buffer size under varying network conditions. Last, we designed and implemented a new monitoring system for measuring video QoE.</span></p>
+  <p class="blacklight-full_doi"><meta itemprop="url" content="https://doi.org/10.7916/D82B8Z7V"></meta></p>
+  <p class="blacklight-language_ssim"><meta itemprop="inLanguage" content="English"></meta></p>
+
+  <div class="subjects">
+    <h2>Subjects</h2>
+    <ul>
+        <li><span itemprop="keywords"><a href="/search?f%5Bsubject_ssim%5D%5B%5D=Internet+service+providers">Internet service providers</a></span></li>
+        <li><span itemprop="keywords"><a href="/search?f%5Bsubject_ssim%5D%5B%5D=Streaming+video">Streaming video</a></span></li>
+        <li><span itemprop="keywords"><a href="/search?f%5Bsubject_ssim%5D%5B%5D=Computer+science">Computer science</a></span></li>
+        <li><span itemprop="keywords"><a href="/search?f%5Bsubject_ssim%5D%5B%5D=Electrical+engineering">Electrical engineering</a></span></li>
+        <li><span itemprop="keywords"><a href="/search?f%5Bsubject_ssim%5D%5B%5D=Netflix+%28Firm%29">Netflix (Firm)</a></span></li>
+        <li><span itemprop="keywords"><a href="/search?f%5Bsubject_ssim%5D%5B%5D=YouTube+%28Electronic+resource%29">YouTube (Electronic resource)</a></span></li>
+    </ul>
+  </div>
+
+
+<div id="assets-panel" class="panel panel-default">
+  <div class="panel-heading">
+    <h2 class="panel-title">Files</h2>
+  </div>
+        <ul class="list-group">
+          <li class="list-group-item">
+            <span class="image"><img height="100" alt="thumbnail for Nam_columbia_0054D_13575.pdf" src="https://triclops.library.columbia.edu/iiif/2/limited/ac:202348/full/!256,256/0/default.jpg" /></span>
+            <span class="filename">Nam_columbia_0054D_13575.pdf</span>
+            <span class="mimetype">application/pdf</span>
+            <span class="filesize">7.24 MB</span>
+            <span class="icon download"><a data-turbo="false" href="/doi/10.7916/D8057PMR/download"><span class="far fa-arrow-alt-circle-down" aria-hidden="true" title="Download file"></span><span class="visually-hidden">Download File</span></a></span>
+          </li>
+        </ul>
+  </ul>
+</div>
+
+
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h2 class="panel-title">More About This Work</h2>
+  </div>
+  <div class="panel-body">
+    <dl>
+        <dt>Academic Units</dt>
+          <dd><a href="/search?f%5Bdepartment_ssim%5D%5B%5D=Electrical+Engineering">Electrical Engineering</a></dd>
+        <dt>Thesis Advisors</dt>
+          <dd>Schulzrinne, Henning G.</dd>
+        <dt>Degree</dt>
+          <dd>Ph.D., Columbia University</dd>
+        <dt>Published Here</dt>
+          <dd>September 16, 2016</dd>
+    </dl>
+  </div>
+</div>
+
+
+
+
+
+
+    </div>
+
+    
+  
+</div>  
+  </div>
+</div>
+
+
+    </section>
+
+    <section id="sidebar" class="col-md-4 order-last" aria-label="limit your search">
+          
+<div class="card show-tools">
+  <ul class="list-group list-group-flush">
+      <li class="list-group-item list-group-item-action asset_buttons">
+        
+
+<a class="btn btn-primary download-button" aria-label="Download file" data-turbo="false" href="/doi/10.7916/D8057PMR/download">Download</a>
+
+
+</li>      <li class="list-group-item list-group-item-action doi">
+        <label for="doi" class="doi-label">DOI</label>
+<input type="text" id="doi" value="https://doi.org/10.7916/D82B8Z7V" readonly>
+<button class="btn copy-to-clipboard" type="button" data-clipboard-target="#doi" aria-label="Copy DOI to clipboard">
+  <i class="fas fa-paste" title="Copy DOI to clipboard" aria-hidden="true"></i>
+  <span class="visually-hidden">Copy DOI to clipboard</span>
+</button>
+
+
+</li>      <li class="list-group-item list-group-item-action social_buttons">
+        <a class="twitter-button" href="https://twitter.com/intent/tweet?text=https://doi.org/10.7916/D82B8Z7V"><i title="Share to Twitter" class="fab fa-twitter-square"></i></a>
+
+<a class="facebook-button" href="https://www.facebook.com/sharer/sharer.php?u=https://doi.org/10.7916/D82B8Z7V"><i title="Share to Facebook" class="fab fa-facebook-square"></i></a>
+
+<a class="email-button" href="mailto:?subject=Measuring and Improving the Quality of Experience of Adaptive Rate Video&body=https://doi.org/10.7916/D82B8Z7V"><i title="Share to Email" class="fas fa-envelope-square"></i></a>
+
+
+</li>      <li class="list-group-item list-group-item-action use_and_reproduction">
+        
+<a class="in-copyright" target="_blank" href="http://rightsstatements.org/vocab/InC/1.0/"><img height="40" alt="In Copyright" src="/vite/assets/in-copyright-B7CUVmNA.svg" /></a><br /><a target="_blank" href="http://rightsstatements.org/vocab/InC/1.0/">All Rights Reserved</a>
+
+
+</li></ul>
+</div>
+
+
+
+
+
+    </section>
+
+        </div>
+      </div>
+    </main>
+
+    
+<footer role="contentinfo">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-9 footer-links">
+        <a aria-label="About Academic Commons" href="/about">About</a> <span>|</span>
+        <a href="/faq">FAQ</a> <span>|</span>
+        <a href="/policies">Policies</a> <span>|</span>
+        <a href="/developers">Developer Resources</a><span>|</span>
+        <a href="/credits">Credits</a>
+      </div>
+      <div class="col-md-3 contact">
+        <i class="far fa-envelope" aria-hidden="true"></i> <a href="mailto:ac@columbia.edu">ac@columbia.edu</a>
+      </div>
+    </div>
+  </div>
+  <div class="site-description">
+    <div class="container">
+      Academic Commons provides global access to research and scholarship produced at <a href="https://www.columbia.edu/">Columbia University</a>, <a href="https://barnard.edu/">Barnard College</a>, <a href="http://www.tc.columbia.edu/">Teachers College</a>, <a href="https://utsnyc.edu/">Union Theological Seminary</a> and <a href="http://www.jtsa.edu/">Jewish Theological Seminary</a>. Academic Commons is managed by the <a href="http://library.columbia.edu/">Columbia University Libraries</a>.
+    </div>
+  </div>
+</footer>
+
+    <dialog id="blacklight-modal" class="modal" data-turbo="false">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+    </div>
+  </div>
+</dialog>
+
+  </body>
+</html>
+
