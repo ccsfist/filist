@@ -9,6 +9,8 @@
    - you run python make_simplefihtml.py and it generates index.html
    - double check that index.html looks ok
    - git add, commit, and push
+   - you can cache a single link by running ```python cache_single_link.py''' make sure to give it a descriptive output filename or you will never know what the file should be
+   - 	october26Cacheandcleanup folder has the mess, backups, and code from cleaning up all links in October 26.  Currently all iri.columbia.edu except iri.columbia.edu/~deo is cached, and most other things point to academic commons, or something like that.
 
 
 ### Immediate next steps:
