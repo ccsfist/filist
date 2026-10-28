@@ -351,10 +351,6 @@ def main():
   input_file = args.input
   if not input_file:
     for candidate in [
-        'combined_data_audited.csv',
-        'combined_data_3_cached.csv',
-        'combined_data_3.csv',
-        'combined_data_clean.csv',
         'combined_data.csv',
     ]:
       if os.path.exists(candidate):
