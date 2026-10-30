@@ -113,16 +113,36 @@ def parse_date(
       month = 1
 
     try:
-      date_obj = datetime(year, month, 1)
-      date_str = date_obj.strftime('%B %Y')
+      if year != 1900:
+        date_obj = datetime(year, month, 1)
+        date_str = date_obj.strftime('%B %Y')
 
-      if year == 1900:
-        date_str = ''
-      elif month == 1 and year > 1900 and not raw_month:
-        date_str = date_obj.strftime('%Y')
+        if month == 1 and year > 1900 and not raw_month:
+          date_str = date_obj.strftime('%Y')
 
-      row['date_str'] = date_str
-      return date_obj
+        row['date_str'] = date_str
+        return date_obj
+      else:
+        # Fallback to the 'date' field if published_year date info is missing
+        raw_date_str = str(raw_date_str or '').strip()
+        if not raw_date_str:
+          row['date_str'] = ''
+          return datetime(1900, 1, 1)
+
+        for fmt in ('%m/%d/%y', '%m/%d/%Y', '%Y-%m-%d', '%B %d, %Y', '%B %Y', '%Y'):
+          try:
+            date_obj = datetime.strptime(raw_date_str, fmt)
+            row['date_str'] = (
+                date_obj.strftime('%B %d, %Y')
+                if fmt in ('%m/%d/%y', '%m/%d/%Y', '%Y-%m-%d', '%B %d, %Y')
+                else date_obj.strftime('%B %Y')
+            )
+            return date_obj
+          except ValueError:
+            pass
+
+        row['date_str'] = ''
+        return datetime(1900, 1, 1)
     except ValueError:
       row['date_str'] = ''
       return datetime(1900, 1, 1)
